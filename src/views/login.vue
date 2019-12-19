@@ -20,15 +20,17 @@
           <el-checkbox v-model="loginFormData.agree">我已阅读并同意用户协议和隐私条款</el-checkbox>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" style="width:100%" @click="login">
+          <!-- <el-button type="primary" style="width:100%" @click="login">
           登陆
-          </el-button>
+          </el-button> -->
+          <el-button :plain="true" type="primary" style="width:100%" @click="login">警告</el-button>
         </el-form-item>
         
          
       </el-form>
 
     </el-card>
+    
   </div>
 </template>
 
@@ -66,19 +68,27 @@ export default {
      
       this.$refs.myForm.validate((isOK) => {
         if (isOK) {
-        // window.console.log ( '校验成功')
+        // console.log ( '校验成功')
           this.$axios({
             url:'/authorizations',
             method:'post',
             data:this.loginFormData
           }).then(()=>{
+
+            // Window.console.log(res);
+            
             this.$router.push('/home')
-          }).catch(function(){
+          }).catch(()=>{
+            this.$message({
+              message: '手机号或验证码输入有误',
+              type: 'warning'
+            });
 
           })
         }
       })
-    }
+    },
+    
   }
 }
 </script>
