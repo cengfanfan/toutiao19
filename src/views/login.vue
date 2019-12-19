@@ -64,9 +64,18 @@ export default {
   methods:{
     login () {
      
-      this.$refs.myForm.validate(function (isOK) {
+      this.$refs.myForm.validate((isOK) => {
         if (isOK) {
-        window.console.log ( '校验成功')
+        // window.console.log ( '校验成功')
+          this.$axios({
+            url:'/authorizations',
+            method:'post',
+            data:this.loginFormData
+          }).then(()=>{
+            this.$router.push('/home')
+          }).catch(function(){
+
+          })
         }
       })
     }
