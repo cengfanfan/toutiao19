@@ -6,7 +6,7 @@
           </layout-left>
       </el-aside>
       <el-container class="right_box">
-          <el-header>
+          <el-header style="padding:0">
              <layout-header></layout-header> 
           </el-header>
           <el-footer>
@@ -17,13 +17,10 @@
 </template>
 
 <script>
-import layoutLeft from "../../components/layout-left"
-import layoutHeader from "../../components/layout-header"
+
+
 export default {
-  components:{
-    'layout-left':layoutLeft,
-    'layout-header':layoutHeader
-  }
+ 
 }
 </script>
 

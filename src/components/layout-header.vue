@@ -1,31 +1,38 @@
 <template>
-  
-      <el-row type="flex" justify="space-between" class="lay-hear">
+
+      <el-row type="flex" justify="space-between" class="lay-hear" color="#2c3e50">
         <el-col :span="6" class="l_left">
           
                 <i class="el-icon-s-fold" style="margin-right:10px"></i>
                 <span>江苏传智播客教育科技股份有限公司</span>
             
         </el-col>
-        <el-col :span="6">
+        <el-col :span="10">
             <div class="grid-content bg-purple-light">
                 <el-row type="flex" justify="end" align="middle">
-                    <input type="text">
-                    <span>消息</span>
-                    <a href="#">
-                        <img src="../assets/img/avatar.jpg" alt="">
+                    <!-- <input type="text" style="margin-right:15px;height:30px;width:200px"> -->
+                    <el-col :span="10">
+                        <el-input
+                            placeholder="请输入内容"
+                            prefix-icon="el-icon-search"
+                            v-model="input2">
+                        </el-input>
+                    </el-col>
+                    
+                    <span  style="margin-right:5px;margin-left:15px">消息</span>
+                    <a href="#"  style="margin-right:25px">
+                        <img :src="userInfo.photo" alt="">
                     </a>
-                    <el-col :span="12">
-                        <el-dropdown trigger="click">
+                    <el-col :span="6">
+                        <el-dropdown @command="logout">
                         <span class="el-dropdown-link">
-                            下拉菜单<i class="el-icon-arrow-down el-icon--right"></i>
+                            {{userInfo.name}}<i class="el-icon-arrow-down el-icon--right"></i>
                         </span>
                         <el-dropdown-menu slot="dropdown">
-                            <el-dropdown-item icon="el-icon-plus">黄金糕</el-dropdown-item>
-                            <el-dropdown-item icon="el-icon-circle-plus">狮子头</el-dropdown-item>
-                            <el-dropdown-item icon="el-icon-circle-plus-outline">螺蛳粉</el-dropdown-item>
-                            <el-dropdown-item icon="el-icon-check">双皮奶</el-dropdown-item>
-                            <el-dropdown-item icon="el-icon-circle-check">蚵仔煎</el-dropdown-item>
+                            <el-dropdown-item command="info">个人信息</el-dropdown-item>
+                            <el-dropdown-item command="adr">git地址</el-dropdown-item>
+                            <el-dropdown-item command="logout">退出</el-dropdown-item>
+                            
                         </el-dropdown-menu>
                         </el-dropdown>
                     </el-col>
@@ -40,21 +47,60 @@
 
 <script>
 export default {
+    data(){
+        return{
+             input2: '',
+             userInfo:{}
+        }
+    },
+    created(){
+        let token = window.localStorage.getItem('use-token')
+        // window.console.log(token)
+        this.$axios({
+            url:"/user/profile",
+            method:"get",
+            headers:{
+                Authorization:`Bearer ${token}`
+            }
+
+        }).then((res)=>{
+            this.userInfo=res.data.data 
+            // Window.console.log(res.data);
+            
+        })
+    },
+    methods:{
+        logout(cmd){
+            if(cmd==='logout'){
+                window.localStorage.removeItem('use-token')
+                this.$router.push('/login')
+            }
+        }
+    }
 
 }
 </script>
 
 <style lang='less' scoped>
     .lay-hear{
-        padding:10px 0;
+        padding:10px 10px;
         box-sizing: border-box;
-        font-size: 20px;
+        font-size: 18px;
         width: 100%;
+        height: 80px;
+        // background-color: aqua;
+        
         // background-color: #fff;
         
         .l_left{
             // background-color: #fff;
             width: 100%;
+            line-height: 50px;
+        }
+        img{
+            border-radius: 50%;
+            width:35px;
+            height: 35px;
         }
     }
 </style>

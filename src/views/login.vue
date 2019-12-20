@@ -23,7 +23,7 @@
           <!-- <el-button type="primary" style="width:100%" @click="login">
           登陆
           </el-button> -->
-          <el-button :plain="true" type="primary" style="width:100%" @click="login">警告</el-button>
+          <el-button :plain="true" type="primary" style="width:100%" @click="login">登陆</el-button>
         </el-form-item>
         
          
@@ -73,8 +73,8 @@ export default {
             url:'/authorizations',
             method:'post',
             data:this.loginFormData
-          }).then(()=>{
-
+          }).then((res)=>{
+            window.localStorage.setItem('use-token',res.data.data.token)
             // Window.console.log(res);
             
             this.$router.push('/home')
