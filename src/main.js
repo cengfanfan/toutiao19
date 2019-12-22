@@ -8,6 +8,8 @@ import './styles/index.less'
 import ElementUI from 'element-ui'
 import axios from './utils/request'
 import Component from './components'
+// import JsonBig from 'json-bigint'
+
 Vue.use(Component)
 axios.defaults.baseURL="http://ttapi.research.itcast.cn/mp/v1_0"
 Vue.prototype.$axios=axios

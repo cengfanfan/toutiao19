@@ -1,6 +1,7 @@
 import axios from "axios"
 import {Message} from "element-ui"
 import router from "../router"
+import JsonBigInt from "json-bigint"
 axios.interceptors.request.use(function(config){
     let token = window.localStorage.getItem('use-token')
     config.headers.Authorization=`Bearer ${token}`
@@ -8,7 +9,11 @@ axios.interceptors.request.use(function(config){
 },function(err){
     return Promise.reject(err)
 })
-
+axios.defaults.transformResponse=[function (data) {
+  // 对 data 进行任意转换处理
+  return JsonBigInt.parse(data)
+  
+}]
 axios.interceptors.response.use(function(res){
     return res.data ? res.data : {}
 },function(err){

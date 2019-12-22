@@ -10,13 +10,8 @@
              <layout-header></layout-header> 
           </el-header>
           <el-main>
-            <bread-crumb></bread-crumb>
-            <!-- <layout-main>
-
-            </layout-main>
-            <comment-list>
-
-            </comment-list> -->
+           
+           
             <router-view></router-view>
           </el-main>
       </el-container>
