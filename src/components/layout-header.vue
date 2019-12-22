@@ -21,7 +21,7 @@
                     
                     <span  style="margin-right:5px;margin-left:15px">消息</span>
                     <a href="#"  style="margin-right:25px">
-                        <img :src="userInfo.photo" alt="">
+                        <img :src="userInfo.photo ? userInfo.photo : defaultImg" alt="">
                     </a>
                     <el-col :span="6">
                         <el-dropdown @command="logout">
@@ -50,21 +50,23 @@ export default {
     data(){
         return{
              input2: '',
-             userInfo:{}
+             userInfo:{},
+             defaultImg:"../assets/img/avatar.jpg"
+
         }
     },
     created(){
-        let token = window.localStorage.getItem('use-token')
+        // let token = window.localStorage.getItem('use-token')
         // window.console.log(token)
         this.$axios({
             url:"/user/profile",
             method:"get",
-            headers:{
-                Authorization:`Bearer ${token}`
-            }
+            // headers:{
+            //     Authorization:`Bearer ${token}`
+            // }
 
         }).then((res)=>{
-            this.userInfo=res.data.data 
+            this.userInfo=res.data
             // Window.console.log(res.data);
             
         })

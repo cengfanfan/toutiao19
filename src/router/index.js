@@ -3,6 +3,8 @@ import VueRouter from 'vue-router'
 import Home from '../views/home/index'
 
 import Login from '../views/login'
+import Main from '../views/home/home'
+import Comment from '../views/comment'
 Vue.use(VueRouter)
 
 const routes = [
@@ -11,8 +13,18 @@ const routes = [
     redirect: '/login'
   } , {
     path: '/home',
-    name: 'home',
-    component: Home
+    // name: 'home',
+    component: Home,
+    children:[
+      {
+      path:'main',
+      component:Main
+    },
+    {
+      path:'comment',
+      // component:()=> import('../views/comment')
+      component:Comment
+    }]
   } , {
     path: '/login',
     name: 'login',
@@ -24,7 +36,7 @@ const routes = [
   //   // route level code-splitting
   //   // this generates a separate chunk (about.[hash].js) for this route
   //   // which is lazy-loaded when the route is visited.
-  //   component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    // component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
   // }
 ]
 

@@ -74,15 +74,12 @@ export default {
             method:'post',
             data:this.loginFormData
           }).then((res)=>{
-            window.localStorage.setItem('use-token',res.data.data.token)
+            window.localStorage.setItem('use-token',res.data.token)
             // Window.console.log(res);
             
             this.$router.push('/home')
           }).catch(()=>{
-            this.$message({
-              message: '手机号或验证码输入有误',
-              type: 'warning'
-            });
+            
 
           })
         }

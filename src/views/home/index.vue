@@ -9,9 +9,16 @@
           <el-header style="padding:0">
              <layout-header></layout-header> 
           </el-header>
-          <el-footer>
-              右下
-          </el-footer>
+          <el-main>
+            <bread-crumb></bread-crumb>
+            <!-- <layout-main>
+
+            </layout-main>
+            <comment-list>
+
+            </comment-list> -->
+            <router-view></router-view>
+          </el-main>
       </el-container>
   </el-container>
 </template>
@@ -37,9 +44,7 @@ export default {
     img{
        height:35px;
     }
-    .right_box{
-      
-    }
+    
    
   }
 }
