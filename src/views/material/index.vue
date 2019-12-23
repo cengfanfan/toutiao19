@@ -12,9 +12,15 @@
       <el-radio-button label="right">right</el-radio-button>
     </el-radio-group> -->
 
-     <button style="float:right">1111</button>
-  <el-tabs style="height: 200px;float:left">
-     
+     <!-- <button style="float:right">1111</button> -->
+     <el-upload :http-request="uplodePic"
+    :show-file-list="false"
+    >
+         <el-button type="primary" class="uplode">上传图片</el-button>
+     </el-upload>
+    
+  <el-tabs style="height: 200px;">
+      
     <el-tab-pane label="全部">
         <div style="display:flex;flex-wrap:wrap;justify-content:flex-star">
            
@@ -29,11 +35,25 @@
                 </el-card>
            
         </div>
+        <el-pagination
+            background layout="prev, pager, next"
+            :total="page.totalPic"
+            style="margin:50px"
+            :page-size="page.pageSize"
+            :current-page="page.curPage"
+            @current-change="changeCur">
+</el-pagination>
     </el-tab-pane>
     <el-tab-pane label="收藏">配置管理</el-tab-pane>
     
     </el-tabs>
+   
+      
+        
+    
+
   </el-crad>
+  
 </template>
 
 <script>
@@ -41,20 +61,48 @@ export default {
   data() {
     return {
       tabPosition: "top",
-      list:[]
+      list:[],
+      page:{
+          totalPic:0,
+          curPage:1,
+          pageSize:10
+      }
     };
   },
   methods:{
       getPicture(){
           this.$axios({
               url:"/user/images",
-              
+              params: {
+          
+                age:this.page.curPage,
+                per_page:this.page.pageSize
+            }
           }).then(res=>{
               window.console.log(res);
               this.list=res.data.results;
               
+            this.page.totalPic=res.data.total_count;
+            this.page.curPage=res.data.page;
+            this.page.pageSize=res.data.per_page;
           })
-      }
+      },
+      uplodePic(params){
+            let form = new FormData()
+            form.append('image', params.file)
+            this.$axios({
+                url:'/user/images',
+                
+                method:"post",
+                data:form,
+          }).then(()=>{
+              this.getPicture()
+          })
+      },
+      changeCur(newPage){
+          this.page.curPage=newPage;
+          this.getPicture()
+      },
   },
   created(){
       this.getPicture()
@@ -63,5 +111,21 @@ export default {
 </script>
 
 <style>
+    .el-card__body{
+        padding: 0 !important;
+    }
+
+    .uplode{
+        position: absolute;
+        top: 94px;
+        right: 40px
+    
+    }
+    .el-main{
+        position: relative;
+    }
+    .el-divider--horizontal{
+        margin: 10px 0 !important;
+    }
     
 </style>
