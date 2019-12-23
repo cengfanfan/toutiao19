@@ -4,6 +4,7 @@ import Home from '../views/home/index'
 import Login from '../views/login'
 import Main from '../views/home/home'
 import Comment from '../views/comment'
+import Material from '../views/material'
 Vue.use(VueRouter)
 
 const routes = [
@@ -23,6 +24,9 @@ const routes = [
       path:'comment',
       // component:()=> import('../views/comment')
       component:Comment
+    },{
+      path:'material',
+      component:Material
     }]
   } , {
     path: '/login',

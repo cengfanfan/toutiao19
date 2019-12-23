@@ -1,7 +1,7 @@
 <template>
   <div>
       <el-breadcrumb separator >
-          <el-breadcrumb-item to="/home">
+          <el-breadcrumb-item to="/home/main">
             首页
           </el-breadcrumb-item>
           <el-breadcrumb-item>
