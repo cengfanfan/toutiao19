@@ -14,7 +14,7 @@
 
      <!-- <button style="float:right">1111</button> -->
      <el-upload :http-request="uplodePic"
-    :show-file-list="false"
+    :show-file-list="false" action
     >
          <el-button type="primary" class="uplode">上传图片</el-button>
      </el-upload>
@@ -26,10 +26,10 @@
            
                 <el-card v-for="itm in list" :key="itm.id" style="padding:0;width:150px;height:150px;margin:40px;position: relative">
                     <img :src="itm.url" alt="" style="width:100%;">
-                    <div style="width:100%;position: absolute;bottom:0;left:0;padding:10px 30px;background-color:#eee">
+                    <div style="width:100%;position: absolute;bottom:0;left:0;padding:10px 30px;background-color:#eee" class="ico">
                         
-                        <i class="el-icon-star-off" style="float:left;"></i>
-                        <i class="el-icon-delete" style="float:right"></i> 
+                        <i class="el-icon-star-off star" @click="star(itm)" :style="{color:itm.is_collected?'red':''}"></i>
+                        <i class="el-icon-delete del" @click="del(itm)"></i> 
                     </div>
                     
                 </el-card>
@@ -82,7 +82,8 @@ export default {
           totalPic:0,
           curPage:1,
           pageSize:10
-        }
+        },
+        
     };
   },
   methods:{
@@ -103,6 +104,7 @@ export default {
             this.page.totalPic=res.data.total_count;
             this.page.curPage=res.data.page;
             this.page.pageSize=res.data.per_page;
+            this.is_collected=res.data.results.is_collected
           })
       },
       uplodePic(params){
@@ -124,6 +126,31 @@ export default {
       changeTab(){
           this.page.curPage=1; 
           this.getPicture()
+      },
+      star(row){
+          this.$axios({
+              url:`/user/images/${row.id.toString()}`,
+              method:'put',
+              data:{
+                  collect:row.is_collected? false : true
+              }
+          }).then(()=>{
+              this.getPicture()
+              window.console.log(1111)
+          })
+      },
+      del(row){
+          
+          this.$confirm('您确定要删除吗').then(()=>{
+            this.$axios({
+                url:`/user/images/${row.id.toString()}`,
+                method:'delete',
+                
+            }).then(()=>{
+                this.getPicture()
+            }) 
+          })
+          
       }
   },
   created(){
@@ -132,7 +159,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="less" secoped>
     
 
     .uplode{
@@ -147,5 +174,13 @@ export default {
     .el-divider--horizontal{
         margin: 10px 0 !important;
     }
-    
+    .ico{
+        .star{
+            float:left;
+            // color: pink
+        }
+        .del{
+            float:right
+        }
+    }
 </style>

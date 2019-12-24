@@ -11,7 +11,7 @@ axios.interceptors.request.use(function(config){
 })
 axios.defaults.transformResponse=[function (data) {
   // 对 data 进行任意转换处理
-  return JsonBigInt.parse(data)
+  return data? JsonBigInt.parse(data) : {}
   
 }]
 axios.interceptors.response.use(function(res){
