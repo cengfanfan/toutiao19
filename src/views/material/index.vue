@@ -1,7 +1,7 @@
 <template>
-  <el-crad>
+  <el-card style="height:100vh">
     <bread-crumb slot="header">
-      <tempelate slot="title">素材管理</tempelate>
+      <template slot="title">素材管理</template>
     </bread-crumb>
     <el-divider></el-divider>
     <el-row>图片管理</el-row>
@@ -24,7 +24,7 @@
     <el-tab-pane label="全部" name="all">
         <div style="display:flex;flex-wrap:wrap;justify-content:flex-star">
            
-                <el-card v-for="itm in list" :key="itm.id" style="padding:0;width:150px;height:150px;margin:40px;position: relative">
+                <el-card v-for="itm in list" :key="itm.id" style="padding:0;width:150px;height:150px;margin:10px 20px;position: relative">
                     <img :src="itm.url" alt="" style="width:100%;">
                     <div style="width:100%;position: absolute;bottom:0;left:0;padding:10px 30px;background-color:#eee" class="ico">
                         
@@ -47,7 +47,7 @@
     <el-tab-pane label="收藏" name="collect">
         <div style="display:flex;flex-wrap:wrap;justify-content:flex-star">
            
-                <el-card v-for="itm in list" :key="itm.id" style="padding:0;width:150px;height:150px;margin:40px;position: relative">
+                <el-card v-for="itm in list" :key="itm.id" style="padding:0;width:150px;height:150px;margin:10px 20px;position: relative">
                     <img :src="itm.url" alt="" style="width:100%;">
                 </el-card>
            
@@ -68,7 +68,7 @@
         
     
 
-  </el-crad>
+  </el-card>
   
 </template>
 
@@ -159,7 +159,7 @@ export default {
 };
 </script>
 
-<style lang="less" secoped>
+<style lang="less" scoped>
     
 
     .uplode{

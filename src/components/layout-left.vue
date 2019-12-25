@@ -8,8 +8,7 @@
           style="width:231px;"
           default-active="2"
           class="el-menu-vertical-demo"
-          @open="handleOpen"
-          @close="handleClose"
+       
            background-color="#353b4e"
            text-color="#adafb5"
            active-text-color="#ffd04b">
@@ -21,8 +20,8 @@
           <span>内容管理</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="/home/public">发表文章</el-menu-item>
-          <el-menu-item index="/home/content">内容列表</el-menu-item>
+          <el-menu-item index="/home/pubAtricles">发表文章</el-menu-item>
+          <el-menu-item index="/home/atricles">内容列表</el-menu-item>
           <el-menu-item index="/home/comment">评论列表</el-menu-item>
           <el-menu-item index="/home/material">素材管理</el-menu-item>
         </el-menu-item-group>

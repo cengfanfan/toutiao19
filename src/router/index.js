@@ -3,8 +3,9 @@ import VueRouter from 'vue-router'
 import Home from '../views/home/index'
 import Login from '../views/login'
 import Main from '../views/home/home'
-import Comment from '../views/comment'
-import Material from '../views/material'
+// import Comment from '../views/comment'
+// import Material from '../views/material'
+// import Atricles from '../views/atricles'
 Vue.use(VueRouter)
 
 const routes = [
@@ -16,17 +17,27 @@ const routes = [
     // name: 'home',
     component: Home,
     children:[
-      {
+    {
       path:'main',
       component:Main
     },
     {
       path:'comment',
-      // component:()=> import('../views/comment')
-      component:Comment
+      component:()=> import('../views/comment')
+      // component:Comment
     },{
       path:'material',
-      component:Material
+      // component:Material,
+      component:()=> import('../views/material')
+
+    },{
+      path:'atricles',
+      component:()=> import('../views/atricles')
+      // component:Atricles
+    },{
+      path:'pubAtricles',
+      component:()=> import('../views/pubAtricles')
+
     }]
   } , {
     path: '/login',

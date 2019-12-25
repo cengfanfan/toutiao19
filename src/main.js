@@ -2,10 +2,10 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import "./permission"
-// import ElementUI from 'element-ui'
+import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css' // 引入elemenUI样式
 import './styles/index.less'
-import ElementUI from 'element-ui'
+// import ElementUI from 'element-ui'
 import axios from './utils/request'
 import Component from './components'
 // import JsonBig from 'json-bigint'
