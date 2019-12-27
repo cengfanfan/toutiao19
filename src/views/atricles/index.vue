@@ -57,7 +57,7 @@
       <el-divider></el-divider>
       <el-row v-for="(itm,index) in atricles" :key="index" class="main_body">
         <el-col class="user_img">
-          <img :src="itm.cover.type? itm.cover.images : img" alt />
+          <img :src="itm.cover.type? itm.cover.images[0] : img" alt />
         </el-col>
         <el-col class="user_cont">
           <span>{{itm.title}}</span>
@@ -65,7 +65,7 @@
           <span>{{itm.pubdate}}</span>
         </el-col>
         <el-col class="button">
-          <el-button type="text">
+          <el-button type="text" @click="updata(itm.id)">
             <i class="el-icon-edit"></i>
             <span>修改</span>
           </el-button>
@@ -178,6 +178,10 @@ export default {
                 this.$message(res.message)
             })
         })
+    },
+    updata(id){
+      this.$router.push(`/home/pubAtricles/${id.toString()}`)
+
     }
   },
   filters: {

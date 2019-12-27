@@ -30,6 +30,11 @@ const routes = [
       // component:Material,
       component:()=> import('../views/material')
 
+    },
+    {
+      path:'pubAtricles/:id',
+      component:()=> import('../views/pubAtricles')
+      // component:Atricles
     },{
       path:'atricles',
       component:()=> import('../views/atricles')
