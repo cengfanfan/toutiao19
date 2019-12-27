@@ -11,14 +11,14 @@
         <el-input type="textarea" :rows="4" v-model="formData.content"></el-input>
       </el-form-item>
       <el-form-item label="封面" prop="type">
-        <el-radio-group v-model="formData.cover.type">
+        <el-radio-group v-model="formData.cover.type" @change="changePic">
           <el-radio :label="1">单图</el-radio>
           <el-radio :label="3">三图</el-radio>
           <el-radio :label="0">无图</el-radio>
           <el-radio :label="-1">自动</el-radio>
         </el-radio-group>
       </el-form-item>
-      <cover-img :list="formData.cover.images"></cover-img>
+      <cover-img :list="formData.cover.images" @getSonImg="getSonImg"></cover-img>
       <el-form-item label="频道" prop="channel_id">
             <el-select v-model="formData.channel_id">
                 <el-option v-for="itm in typeList" :key="itm.id" :label="itm.name" :value="itm.id"></el-option>
@@ -57,6 +57,17 @@ export default {
     },
    
     methods:{
+        changePic(){
+          
+              if(this.formData.cover.type===0||this.formData.cover.type===-1){
+                this.formData.cover.images=[]
+              }else if(this.formData.cover.type===1){
+                this.formData.cover.images=['']
+
+              }else if (this.formData.cover.type===3){
+                this.formData.cover.images=['','','']
+              }
+        },
         changeType(){
             this.$axios({
                 url:'/channels',
@@ -89,6 +100,16 @@ export default {
           }).then((res)=>{
             this.formData=res.data
           })
+        },
+        getSonImg(img,index){
+          // alert('22222'+img)
+          this.formData.cover.images=this.formData.cover.images.map(function(itm,i){
+             if(i===index){
+               return img
+             }
+             return itm
+          })
+          
         }
         
     },
@@ -101,6 +122,7 @@ export default {
        }
     },
     watch:{
+      //监控$route为了解决两个路由使用同一个组件的问题
       $route:function(to){
         if(Object.keys(to.params).length){
           this.$getArticleByid(to.params.id)
@@ -117,16 +139,17 @@ export default {
             }
         }
       },
-      "formData.cover.type":function(){
-        if(this.formData.cover.type===0||this.formData.cover.type===-1){
-          this.formData.cover.images=[]
-        }else if(this.formData.cover.type===1){
-          this.formData.cover.images=['']
+      //监控formData.cover.type为了
+      // "formData.cover.type":function(){
+      //   if(this.formData.cover.type===0||this.formData.cover.type===-1){
+      //     this.formData.cover.images=[]
+      //   }else if(this.formData.cover.type===1){
+      //     this.formData.cover.images=['']
 
-        }else if (this.formData.cover.type===3){
-          this.formData.cover.images=['','','']
-        }
-      }
+      //   }else if (this.formData.cover.type===3){
+      //     this.formData.cover.images=['','','']
+      //   }
+      // }
     }
 };
 </script>
