@@ -31,7 +31,7 @@
           <span>粉丝管理</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="home/picture">图文数据</el-menu-item>
+          <el-menu-item index="/home/picture">图文数据</el-menu-item>
           <el-menu-item index="/home/fans">粉丝概况</el-menu-item>
           <el-menu-item index="/home/photo">粉丝画像</el-menu-item>
           <el-menu-item index="/home/list">粉丝列表</el-menu-item>
@@ -39,7 +39,7 @@
          
         </el-menu-item-group>
       </el-submenu>
-      <el-menu-item index="2">
+      <el-menu-item index="/home/accout">
               <span slot="title" style="color:#adafb5">账户信息</span>
             </el-menu-item>
           </el-menu>     

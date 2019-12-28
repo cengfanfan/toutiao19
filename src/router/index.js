@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/home/index'
 import Login from '../views/login'
 import Main from '../views/home/home'
+import Accout from '../views/account_msg'
 // import Comment from '../views/comment'
 // import Material from '../views/material'
 // import Atricles from '../views/atricles'
@@ -18,7 +19,7 @@ const routes = [
     component: Home,
     children:[
     {
-      path:'main',
+      path:'',
       component:Main
     },
     {
@@ -43,12 +44,16 @@ const routes = [
       path:'pubAtricles',
       component:()=> import('../views/pubAtricles')
 
+    },
+    {
+      path:'accout',
+      component:Accout,
     }]
   } , {
     path: '/login',
     name: 'login',
     component:Login
-  }
+  },
   // {
   //   path: '/about',
   //   name: 'about',
