@@ -68,16 +68,15 @@ export default {
                 this.formData.cover.images=['','','']
               }
         },
-        changeType(){
-            this.$axios({
+        async changeType(){
+           let res= await this.$axios({
                 url:'/channels',
 
-            }).then((res)=>{
-                this.typeList=res.data.channels
             })
+            this.typeList=res.data.channels
         },
-        pubArticle(draft){
-          this.$refs.pubRules.validate((isOk)=>{
+        async pubArticle(draft){
+          await this.$refs.pubRules.validate((isOk)=>{
             if(isOk){
               let {id}=this.$route.params
               //修改与发表合写
@@ -86,20 +85,18 @@ export default {
                   url:id?`/articles/${id}`:'/articles',
                   params:{draft}, 
                    data:this.formData
-                }).then(()=>{
-                  this.$router.push('/home/atricles')
-                })          
+                })     
+                this.$router.push('/home/atricles')    
             }
           })
 
         },
-        getArticleByid(id){
-          this.$axios({
+        async getArticleByid(id){
+          let res=await this.$axios({
             url:`/articles/${id}`,
             
-          }).then((res)=>{
-            this.formData=res.data
           })
+          this.formData=res.data
         },
         getSonImg(img,index){
           // alert('22222'+img)

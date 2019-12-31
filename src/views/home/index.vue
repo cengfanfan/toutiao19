@@ -1,8 +1,8 @@
 <template>
   <el-container class="b_l_box">
-      <el-aside class="left_box" style="width:230px">
+      <el-aside class="left_box" :style="{'width':collaspsed?'60px':'230px'}">
           <layout-left>
-            左
+    
           </layout-left>
       </el-aside>
       <el-container class="right_box">
@@ -19,9 +19,23 @@
 </template>
 
 <script>
-
-
+import eventBus from "../../utils/eventBus"
 export default {
+  data(){
+    return{
+      collaspsed:false,
+    }
+  },
+  methods:{
+   
+  },
+  created(){
+    eventBus.$on('collaspsed',()=>{
+      this.collaspsed=!this.collaspsed
+
+
+    })
+  }
  
 }
 </script>
@@ -38,6 +52,7 @@ export default {
     overflow: hidden;
     img{
        height:35px;
+    
     }
     
    

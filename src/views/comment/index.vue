@@ -36,6 +36,8 @@
 </template>
 
 <script>
+// import { async } from 'q';
+// import {getComment} from '../../actions/api'
 export default {
   data() {
     return {
@@ -52,34 +54,30 @@ export default {
           this.page.curPage=newPage;
           this.getComment();
       },
-    getComment() {
-      this.$axios({
+    async getComment() {
+     let res= await this.$axios({
         url: "/articles",
         params: {
           //    response_type=comment
           response_type: "comment",page:this.page.curPage,per_page:this.page.pageSize
         }
-      }).then(res => {
-        this.list = res.data.results;
+      })
+      this.list = res.data.results;
         // window.console.log(res);
         
         this.page.totalArt=res.data.total_count;
         this.page.curPage=res.data.page;
         this.page.pageSize=res.data.per_page;
-
-
-
-      });
     },
 
     tansStatus(row, column, cellValue) {
       return cellValue ? "正常" : "关闭";
     },
-    openOrclose(row) {
+   async openOrclose(row) {
       //    window.console.log(row)
       let mes = row.comment_status ? "关闭" : "打开";
-      this.$confirm(`您是否确定要${mes}评论吗`).then(() => {
-        this.$axios({
+      await this.$confirm(`您是否确定要${mes}评论吗`)
+      await this.$axios({
           url: "/comments/status",
           method: "put",
           params: {
@@ -88,14 +86,12 @@ export default {
           data: {
             allow_comment: !row.comment_status
           }
-        }).then(() => {
+        })
           this.$message({
             type: "success",
             message: "操作成功"
           });
           this.getComment();
-        });
-      });
       //    let re=confirm("确定要修改评论状态吗？")
       //     if(re){
 

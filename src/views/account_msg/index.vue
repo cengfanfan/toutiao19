@@ -4,17 +4,27 @@
         <bread-crumb slot="header">
             <template slot="title">内容列表</template>
         </bread-crumb>
+        <el-dialog title="上传头像" :visible="dialog" @close="closeChange" width="40%">
+            <el-upload action class="dialog" :http-request="uploadPhoto" :show-file-list="false">
+                <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                <i v-else class="el-icon-plus btnIcon"></i>
+            </el-upload>
+            <el-button>取消</el-button>
+            <el-button @click="changeSuccess">确定</el-button>
+        </el-dialog>
         <el-row class="pic_box">
             <el-col :span="2" class="msg_box">
-                <img src="../../assets/img/404.png" alt="">
-                <el-button type="text" class="btn">更改头像</el-button>
+                <img :src="msgList.photo" alt="">
+                <el-button type="text" class="btn" @click="changePhoto" >更改头像</el-button>
             </el-col>
             <el-col :span="20" class="text">
-                <span>{{msgList.name}}</span>
-                <span class="small">{{msgList.intro}}</span>
+               
+                    <span>{{msgList.name}}</span>
+                    <span class="small">{{msgList.intro}}</span>
+               
             </el-col>
             <el-col :span="2">
-                <el-button type="text" @click="uploadMsg">修改</el-button>
+                <el-button type="text">修改</el-button>
             </el-col>
             
         </el-row>
@@ -60,6 +70,7 @@
 </template>
 
 <script>
+import eventBus from '../../utils/eventBus'
 export default {
     data(){
         return{
@@ -70,7 +81,10 @@ export default {
                 photo:'',
                 email:'',
                 mobile:''
-            }
+            },
+            dialog:false,
+            imageUrl:'',
+            
         }
     },
     methods:{
@@ -79,11 +93,33 @@ export default {
                 url:'/user/profile',
             }).then(res=>{
                 this.msgList=res.data
+                window.console.log(res.data)
             })
         },
-        uploadMsg(){
-            
-        }
+        uploadPhoto(params){
+            let data = new FormData();
+            data.append('photo',params.file)
+            this.$axios({
+                url:'/user/photo',
+                method:'patch',
+                data
+            }).then((res)=>{
+                this.imageUrl=res.data.photo
+            })
+        },
+        changePhoto(){
+           this.dialog=true
+        },
+        closeChange(){
+            this.dialog=false
+        },
+        changeSuccess(){
+            this.msgList.photo=this.imageUrl;
+            this.closeChange();
+            eventBus.$emit('updataImg')
+        },
+        
+        
     },
     created(){
         this.getUserMsg()
@@ -93,6 +129,35 @@ export default {
 </script>
 
 <style lang="less" scoped>
+
+    .btnIcon {
+        font-size: 28px;
+        color: #8c939d;
+        width: 178px !important;
+        height: 178px;
+        line-height: 178px;
+        text-align: center;
+    }
+    .dialog {
+        border: 1px dashed #d9d9d9;
+        border-radius: 6px;
+        cursor: pointer;
+        position: relative;
+        width: 178px;
+        overflow: hidden;
+        margin: 0 auto;
+    }
+    .avatar{
+        border: 1px dashed #d9d9d9;
+        border-radius: 6px;
+        cursor: pointer;
+        position: relative;
+        width: 178px;
+        overflow: hidden;
+        margin: 0 auto;
+    }
+
+
     .pic_box{
         .msg_box{
             display: flex;

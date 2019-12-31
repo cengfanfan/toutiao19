@@ -87,8 +87,8 @@ export default {
     };
   },
   methods:{
-      getPicture(){
-          this.$axios({
+     async getPicture(){
+          let res= await this.$axios({
               url:"/user/images",
               params: {
           
@@ -97,27 +97,25 @@ export default {
                 // collect:false
                 collect:this.activeName ==='collect'
             }
-          }).then(res=>{
-              window.console.log(res);
+          })
+          window.console.log(res);
               this.list=res.data.results;
             
             this.page.totalPic=res.data.total_count;
             this.page.curPage=res.data.page;
             this.page.pageSize=res.data.per_page;
             this.is_collected=res.data.results.is_collected
-          })
       },
-      uplodePic(params){
+      async uplodePic(params){
             let form = new FormData()
             form.append('image', params.file)
-            this.$axios({
+            await this.$axios({
                 url:'/user/images',
                 
                 method:"post",
                 data:form,
-          }).then(()=>{
-              this.getPicture()
           })
+          this.getPicture()
       },
       changeCur(newPage){
           this.page.curPage=newPage;
@@ -127,29 +125,26 @@ export default {
           this.page.curPage=1; 
           this.getPicture()
       },
-      star(row){
-          this.$axios({
+      async star(row){
+         await this.$axios({
               url:`/user/images/${row.id.toString()}`,
               method:'put',
               data:{
                   collect:row.is_collected? false : true
               }
-          }).then(()=>{
-              this.getPicture()
-              window.console.log(1111)
           })
+            this.getPicture()
+              window.console.log(1111)
       },
-      del(row){
+      async del(row){
           
-          this.$confirm('您确定要删除吗').then(()=>{
-            this.$axios({
+         await this.$confirm('您确定要删除吗')
+          await this.$axios({
                 url:`/user/images/${row.id.toString()}`,
                 method:'delete',
                 
-            }).then(()=>{
-                this.getPicture()
-            }) 
-          })
+            })
+             this.getPicture()
           
       }
   },

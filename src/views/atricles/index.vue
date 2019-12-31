@@ -92,6 +92,7 @@
 </template>
 
 <script>
+import {getatricles,getTypeList} from '../../actions/api'
 export default {
   data() {
     return {
@@ -125,15 +126,12 @@ export default {
       this.getatricles(params)
       
     },
-    getTypeList() {
-      this.$axios({
-        url: "/channels"
-      }).then(res => {
-        this.typeList = res.data.channels;
+    async getTypeList() {
+      let res =await getTypeList();
+      this.typeList = res.data.channels;
         //   this.typeList.name=res.channels.name
         window.console.log(res.data.channels);
         // window.console.log(this.typeList.id)
-      });
     },
 
     changeStatus() {
@@ -153,31 +151,25 @@ export default {
 
       this.getatricles(params); // 调用获取文章数据
     },
-    getatricles(params) {
-      this.$axios({
-        url: "/articles",
-        params
-      }).then(res => {
-        window.console.log(res.data.results);
+    async getatricles(params) {
+     let res=await getatricles(params);
+      window.console.log(res.data.results);
         this.atricles = res.data.results;
         this.total = res.data.total_count;
         this.page.total = res.data.total_count;
         this.page.pageSize = res.data.per_page;
         // this.page.curPage = res.data.page;
-      });
     },
-    delArt(id){
+    async delArt(id){
         
-        this.$confirm('您确定要删除吗？').then(()=>{
-            this.$axios({
+        await this.$confirm('您确定要删除吗？')
+        let res= await this.$axios({
                 url:`/articles/${id.toString()}`,
                 method:'delete',
 
-            }).then((res)=>{
-                this.getatricles();
-                this.$message(res.message)
             })
-        })
+            this.getatricles();
+            this.$message(res.message)
     },
     updata(id){
       this.$router.push(`/home/pubAtricles/${id.toString()}`)

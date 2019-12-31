@@ -3,7 +3,7 @@
       <el-row type="flex" justify="space-between" class="lay-hear" color="#2c3e50">
         <el-col :span="6" class="l_left">
           
-                <i class="el-icon-s-fold" style="margin-right:10px"></i>
+                <i :class="{'el-icon-s-fold':collaspsed,'el-icon-s-unfold':!collaspsed}" style="margin-right:10px;font-size:24px" @click="collaspsedOrOpen"></i>
                 <span>江苏传智播客教育科技股份有限公司</span>
             
         </el-col>
@@ -46,19 +46,29 @@
 </template>
 
 <script>
+import eventBus from "../utils/eventBus"
 export default {
     data(){
         return{
+            collaspsed:false,
              input2: '',
              userInfo:{},
-             defaultImg:"../assets/img/avatar.jpg"
+             defaultImg:require("../assets/img/avatar.jpg")
 
         }
     },
     created(){
         // let token = window.localStorage.getItem('use-token')
         // window.console.log(token)
-        this.$axios({
+        this.updata();
+        eventBus.$on('updataImg',()=>{
+            this.updata();
+        });
+        
+    },
+    methods:{
+        updata(){
+            this.$axios({
             url:"/user/profile",
             method:"get",
             // headers:{
@@ -70,13 +80,16 @@ export default {
             // Window.console.log(res.data);
             
         })
-    },
-    methods:{
+        },
         logout(cmd){
             if(cmd==='logout'){
                 window.localStorage.removeItem('use-token')
                 this.$router.push('/login')
             }
+        },
+        collaspsedOrOpen(){
+            this.collaspsed=!this.collaspsed;
+            eventBus.$emit('collaspsed',this.collaspsed)
         }
     }
 
